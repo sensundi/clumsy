@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'helian',
+    'djangobower',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -49,6 +50,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+)
+
+STATICFILES_FINDERS = (
+    'djangobower.finders.BowerFinder',
 )
 
 ROOT_URLCONF = 'unearthed.urls'
@@ -101,3 +106,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BOWER_COMPONENTS_ROOT = '/bower_components/'
+
+BOWER_INSTALLED_APPS = ('mocha#1.17.1',
+ 'datatables-plugins#1.0.1',
+ 'metisMenu#1.1.3',
+ 'raphael#2.1.4',
+ 'morrisjs#0.5.1',
+ 'flot#0.8.3',
+ 'datatables-responsive#1.0.7',
+ 'flot.tooltip#0.8.5',
+ 'bootstrap-social#4.8.0',
+ 'bootstrap#3.3.5',
+ 'morris.js#0.5.1',
+ 'startbootstrap-sb-admin-2#1.0.7',
+ 'font-awesome#4.2.0',
+ 'holderjs#2.4.1',
+ 'jquery#2.1.4',
+ 'datatables#1.10.9')
