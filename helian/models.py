@@ -15,12 +15,12 @@ class Department(models.Model):
     supervisor = models.ForeignKey(Person)
 
 class Status(models.Model):
-
     name = models.CharField(max_length=20,default='unspecified')
-    def __str__(self):
+    def __unicode__(self):
         return self.name
         
 class Device(models.Model):
+    
     name = models.CharField(max_length=20,default='unspecified')
     dept = models.ForeignKey(Department, null=True)
     owner = models.ForeignKey(Person, null=True)
@@ -29,4 +29,6 @@ class Device(models.Model):
     
 class PowerUsage(models.Model):
     unitsconsumed = models.FloatField()
+    temperature = models.FloatField(default='0.0')
+    device = models.ForeignKey(Device, null=True)
     lastrecorded = models.DateTimeField(default=datetime.datetime.now())

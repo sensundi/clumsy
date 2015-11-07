@@ -25,7 +25,7 @@ def tables(request):
 
 def getdevices(request,dept):
     mapping = {}
-    devicelist = Device.objects.filter(dept_pk = int(dept))
+    devicelist = Device.objects.filter(dept__pk = int(dept))
     mapping = {'devices':devicelist}
     rc = RequestContext(request, mapping)
     return render_to_response("devices.html", 
@@ -33,3 +33,29 @@ def getdevices(request,dept):
     
 # def devicedetails(request, deviceid):
 #     mapping = 
+    
+def engagedevice(request,devid):
+    print devid
+    device = Device.objects.filter(pk=int(devid)).all()[0]
+    status = Status.objects.filter(name='locked').all()[0]
+    device.status = status
+    device.save()
+    return HttpResponse("Device " + device.name + " isolated")
+
+def disengagedevice(request,devid):
+    device = Device.objects.filter(pk=int(devid)).all()[0]
+    status = Status.objects.filter(name='available').all()[0]
+    device.status = status
+    device.save()
+    return HttpResponse("Device " + device.name + " available")
+
+def updatetemperature(request,devid,tmpr):
+    device = Device.objects.filter(pk=int(devid)).all()[0]
+    usage = PowerUsage(device=Device.objects.filter(pk=int(devid)).all()[0])
+    if PowerUsage.objects.filter(device__pk=int(devid)).all():
+        usage = PowerUsage.objects.filter(device__pk=int(devid)).all()[0]
+    usage.temperature = float(tmpr)
+    usage.unitsconsumed = 0.0
+    usage.save()
+    device.save() 
+    return HttpResponse("Device " + device.name + " reported temperature of "+ tmpr + " degrees")
