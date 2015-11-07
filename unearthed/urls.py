@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
+print settings.STATIC_ROOT, settings.STATIC_URL
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-]
+    url(r'^sitebrain/$', 'helian.views.index'),
+    url(r'^dash/$', 'helian.views.dash'),
+    url(r'^devices/$', 'helian.views.devices'),
+    url(r'tables/$', 'helian.views.tables'),
+    url(r'^viewdevices/(?P<dept>\w{0,50})/$', 'helian.views.getdevices'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

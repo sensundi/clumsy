@@ -52,16 +52,17 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-STATICFILES_FINDERS = (
-    'djangobower.finders.BowerFinder',
-)
+# STATICFILES_FINDERS = (
+#     'djangobower.finders.BowerFinder',
+# )
 
 ROOT_URLCONF = 'unearthed.urls'
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -86,8 +88,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-
+STATICFILES_DIRS = (
+                    os.path.join(BASE_DIR, "static"),
+                    )
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -104,7 +109,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
+# STATICFILES_DIRS = (
+#     "C:/djangoprojects/unearthed/static",
+#     )
 STATIC_URL = '/static/'
 
 BOWER_COMPONENTS_ROOT = '/bower_components/'
