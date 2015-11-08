@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.shortcuts import render_to_response,redirect,render
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from django.http import HttpResponse,HttpResponseRedirect,Http404
-from django.views.generic import DetailView
-from django.contrib.auth.models import User
+# from django.views.generic import DetailView
+# from django.contrib.auth.models import User
 
 
 from helian.models import Department, Person, Status, Device, PowerUsage
@@ -15,7 +15,27 @@ def index(request):
     pass
 
 def dash(request):
-    return render_to_response('base.html',context_instance=RequestContext(request))
+    d = {}
+    map_list=[]
+    depts = Department.objects.all()
+    dept_colors = ["panel panel-green",
+                   "panel panel-yellow",
+                   "panel panel-red"]
+    dept_icons = ["fa fa-tasks fa-5x","fa fa-shopping-cart fa-5x","fa fa-support fa-5x"]
+    
+    for index, dept in enumerate(depts):
+        device_count = len(Device.objects.filter(dept__pk=dept.id).all())
+        mapping = {}
+        mapping['devcount'] = device_count
+        mapping['name'] = dept.name
+        mapping['id'] = dept.id
+        mapping['icon'] = dept_icons[index]
+        mapping['color'] = dept_colors[index]
+        map_list.append(mapping)
+#     print map_list
+    d['dept_list'] = map_list
+    
+    return render_to_response('base.html', d, context_instance=RequestContext(request))
 
 def devices(request):
     return render_to_response('charts.html',context_instance=RequestContext(request))
@@ -25,17 +45,19 @@ def tables(request):
 
 def getdevices(request,dept):
     mapping = {}
-    devicelist = Device.objects.filter(dept__pk = int(dept))
-    mapping = {'devices':devicelist}
+    devicelist = Device.objects.filter(dept__pk = int(dept)).values()
+    depobj = Department.objects.filter(pk=dept).all()[0]
+    mapping = {'devices':devicelist, 'department':depobj.name}
     rc = RequestContext(request, mapping)
     return render_to_response("devices.html", 
+                              mapping,
                               context_instance=rc)
     
 # def devicedetails(request, deviceid):
 #     mapping = 
     
 def engagedevice(request,devid):
-    print devid
+#     print devid
     device = Device.objects.filter(pk=int(devid)).all()[0]
     status = Status.objects.filter(name='locked').all()[0]
     device.status = status

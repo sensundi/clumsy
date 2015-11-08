@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^dash/$', 'helian.views.dash'),
     url(r'^devices/$', 'helian.views.devices'),
     url(r'tables/$', 'helian.views.tables'),
-    url(r'^viewdevices/(?P<dept>\w{0,50})/$', 'helian.views.getdevices'),
+    url(r'^viewdept/(?P<dept>\w{0,50})/$', 'helian.views.getdevices', name='view-dept'),
     url(r'^padlock/(?P<devid>\w{1,50})/$', 'helian.views.engagedevice'),
     url(r'^unlock/(?P<devid>\w{1,50})/$', 'helian.views.disengagedevice'),
     url(r'^update/(?P<devid>\w{1,50})/(?P<tmpr>\w+[.]\w+)/$', 'helian.views.updatetemperature'),
